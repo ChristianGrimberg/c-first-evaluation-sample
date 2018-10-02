@@ -1,0 +1,16 @@
+# ===================
+# Code::Blocks files
+# ==================
+
+# Build Folders
+*/obj
+
+# IDE Layout Files
+*.layout
+
+# ===================
+# Visual Studio files
+# ===================
+
+# IDE settings
+settings.json

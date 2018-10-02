@@ -1,0 +1,26 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Test Compiler",
+            "command": "cc",
+            "type": "shell",
+            "args": [
+                "utn.c",
+                "main.c",
+                "-lm",
+                "-o",
+                "bin/Debug/c-first-evaluation-sample"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
