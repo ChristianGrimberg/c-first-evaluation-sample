@@ -364,7 +364,7 @@ int utn_getEmail(char* pEmail, int len, int retry,
     char dotCounter;
     int i;
     int j;
-    
+
     if(pEmail != NULL && len > 0 && retry >= 0
     && message != NULL && error != NULL)
     {
@@ -383,11 +383,11 @@ int utn_getEmail(char* pEmail, int len, int retry,
                     i++;
                 }
                 emailNickName[i] = EXIT_BUFFER;
-                if(emailAux[i] == '@')
+                if(emailAux[i] == '@' && i > 0)
                 {
                     emailAt = emailAux[i];
                     i++;
-                    j = i;                
+                    j = i;
                     if(emailAux[i] != '.')
                     {
                         while(emailAux[i] != EXIT_BUFFER)
@@ -412,6 +412,8 @@ int utn_getEmail(char* pEmail, int len, int retry,
                         if(dotCounter > 0 && dotCounter <= 2
                         && emailAux[i-1] != '.' && emailAux[i] != '@')
                         {
+                            sprintf(emailAux, "%s%c%s",
+                                    emailNickName, emailAt, emailDomain);
                             strncpy(pEmail, emailAux, EMAIL_MAX);
                             returnValue = 0;
                             retry = -1;
