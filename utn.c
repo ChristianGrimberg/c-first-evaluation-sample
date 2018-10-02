@@ -359,25 +359,65 @@ int utn_getEmail(char* pEmail, int len, int retry,
     int returnValue = -1;
     char emailAux[EMAIL_MAX];
     char emailNickName[EMAIL_NICK];
+    char emailAt;
     char emailDomain[EMAIL_DOMAIN];
+    char dotCounter;
     int i;
+    int j;
     
     if(pEmail != NULL && len > 0 && retry >= 0
     && message != NULL && error != NULL)
     {
         do
         {
+            i = 0;
+            j = 0;
+            dotCounter = 0;
             retry--;
             printf(message);
             if(getString(emailAux, len) == 0)
             {
-                while(emailAux[i] != '@')
+                while(emailAux[i] != '@' && emailAux[i] != EXIT_BUFFER)
                 {
                     emailNickName[i] = emailAux[i];
                     i++;
                 }
-                emailNickName[i] = '\0';
-                printf("%s:%c\n", emailNickName, emailAux[i]);
+                emailNickName[i] = EXIT_BUFFER;
+                if(emailAux[i] == '@')
+                {
+                    emailAt = emailAux[i];
+                    i++;
+                    j = i;                
+                    if(emailAux[i] != '.')
+                    {
+                        while(emailAux[i] != EXIT_BUFFER)
+                        {
+                            if(dotCounter > 2
+                            || (emailAux[i] == '.' && emailAux[i-1] == '.')
+                            || emailAux[i] == '@')
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                emailDomain[i-j] = emailAux[i];
+                                if(emailAux[i] == '.')
+                                {
+                                    dotCounter++;
+                                }
+                                i++;
+                            }
+                        }
+                        emailDomain[i-j] = EXIT_BUFFER;
+                        if(dotCounter > 0 && dotCounter <= 2
+                        && emailAux[i-1] != '.' && emailAux[i] != '@')
+                        {
+                            strncpy(pEmail, emailAux, EMAIL_MAX);
+                            returnValue = 0;
+                            retry = -1;
+                        }
+                    }
+                }
             }
         }while(retry >= 0);
     }
