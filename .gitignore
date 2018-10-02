@@ -3,7 +3,7 @@
 # ==================
 
 # Build Folders
-*/obj
+obj
 
 # IDE Layout Files
 *.layout
